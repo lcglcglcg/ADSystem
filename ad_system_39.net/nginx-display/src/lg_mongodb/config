@@ -1,0 +1,4 @@
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/*.c"
+CORE_INCS="$CORE_INCS /usr/local/include/libmongoc-1.0"
+CORE_INCS="$CORE_INCS /usr/local/include/libbson-1.0"
+CORE_LIBS="$CORE_LIBS -lmongoc-1.0"

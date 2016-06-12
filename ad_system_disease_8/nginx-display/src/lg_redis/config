@@ -1,0 +1,1 @@
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/lg_redis.c"

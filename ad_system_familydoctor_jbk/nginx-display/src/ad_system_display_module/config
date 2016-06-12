@@ -1,0 +1,7 @@
+
+ngx_addon_name=ad_system_display_module
+HTTP_MODULES="$HTTP_MODULES ad_system_display_module"
+
+CORE_INCS="$CORE_INCS $ngx_addon_dir/include"
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/*.c"
+

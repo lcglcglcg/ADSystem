@@ -1,0 +1,1325 @@
+
+//判断是否登录
+{
+	PACKET_TYPE: USER_LOGIN_CHECK
+}
+{
+	CODE: 1000
+}
+
+//获取验证码png
+{
+	PACKET_TYPE: GET_CAPTCHA
+}
+
+	return png image
+
+//登录
+{
+	PACKET_TYPE: USER_LOGIN
+	ACCOUNT: abc 	//用户名
+	PASSWORD: abc 	//密码
+	VAR_CODE: abc 	//验证码
+}
+{
+	CODE: 0
+}
+
+//退出登录
+{
+	PACKET_TYPE: USER_LOGOUT
+}
+{
+	CODE: 0
+}
+
+//获取右侧标题栏信息
+{
+	PACKET_TYPE: GET_TITLE_INFO
+}
+{
+	USER_LOGIN_NAME: abc 	//用户名
+	COMPANY_NAME: abc 	//公司名称
+	BALANCE: 100.00 	//账面余额
+	INVEST: 100.00		//投资总额
+	CONSUMPTION: 100.00 	//消费金额
+	DOMAIN: a.com		//公司域名
+	GUAHAO_TOKEN: 		//挂号网API
+	PLACE_REGION		//1全部  2省级
+}
+
+//账户信息->获取用户信息
+{
+	PACKET_TYPE: GET_USER_INFO
+}
+{
+	USER_LOGIN_NAME: abc 	//用户名
+	COMPANY_NAME: abc 	//公司名称
+	COMPANY_SITE: abc 	//公司网址
+	INDUSTRY: abc 		//所属行业
+	API_TOKEN: abc 		//APITOKEN
+	PROVINCE_ID: abc 	//所在区域一级区域ID
+	CITY_ID: abc 		//所在区域二级区域ID
+	ADDRESS: abc 		//通信地址
+	POSTCODE: abc 		//邮编
+	CONTACT: abc 		//联系人
+	TELEPHONE: abc 		//电话
+	FAX: abc 		//传真
+	MOBILE: abc 		//移动电话
+	EMAIL: abc 		//电子邮件
+	WEBIM: abc 		//咨询链接
+	LATE_LOGIN_TIME: aaa 	//最后登录时间
+	LATE_LOGIN_IP: aaa 	//最后登录IP
+	LATE_LOGIN_ADDRESS: aaa //最后登录地址
+	PLACE_REGION		//1全部  2省级
+}
+
+//点击推广->获取组定向搜索词(搜索定向)
+{
+	PACKET_TYPE: GET_GROUP_KEYWORD
+	CAMPAIGN_ID: 111	//计划ID 
+	GROUP_ID: 111			//组ID
+
+ 	DISPLAY_STATUS:	1	//1图片广告 2文字广告
+	FIND_TYPE: 1			//1-默认(全部) 2-FIND_NAME
+	FIND_NAME_TYPE:1		//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null 		//查询NAME FIND_TYPE & 2
+}
+{
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	},
+	LIST:[
+	{
+		GROUP_KEYWORD_ID: 111
+		GROUP_KEYWORD: aa
+	},				//TARGETING_TYPE = 2 生效
+	...
+	]
+}
+	
+//点击推广->添加组定向搜索词(搜索定向)
+{
+	PACKET_TYPE: ADD_GROUP_KEYWORD
+	GROUP_ID: 111			//组ID
+	GROUP_KEYWORD: aa,bb,cc		//多个词逗号分割
+}
+
+//点击推广->删除组定向搜索词(搜索定向)
+{
+	PACKET_TYPE: DEL_GROUP_KEYWORD
+	GROUP_KEYWORD_ID: 1111
+}
+
+//点击推广->修改组
+{
+	PACKET_TYPE: SET_GROUP
+
+	GROUP_ID: 111			//组ID
+ 	UPDATE_TYPE: 1			//1-STATUS 2-CPC_PRICE 4-TARGETING 8-GROUP_NAME 16-CPM_PRICE
+	
+	GROUP_STATUS: 1			//1有效 2暂停 UPDATE_TYPE & 1
+ 	GROUP_CPC_PRICE: 100		//CPC出价UPDATE_TYPE & 2 //删除原GROUP_PRICE
+ 	GROUP_CPM_PRICE: 100		//CPM出价UPDATE_TYPE & 16 //删除原GROUP_PRICE
+	//GROUP_CPC_PRICE "", "0" 空/0 =参数非法  "null"删除CPC
+	//GROUP_CPM_PRICE "", "0" 空/0 =参数非法  "null"删除CPM
+	
+	GROUP_TARGETING_TYPE: 1		//1浏览定向 2搜索定向 UPDATE_TYPE & 4
+	GROUP_DISEASE: 11,22,33		//TARGETING_TYPE = 1 生效 UPDATE_TYPE & 4
+	//GROUP_KEYWORD: aa,bb,cc		//TARGETING_TYPE = 2 生效 UPDATE_TYPE & 4
+
+	CAMPAIGN_ID: 111		//计划ID
+	GROUP_NAME: abc			//组NAME
+}
+{
+	CODE: 0
+}
+
+//点击推广->添加组
+{
+	PACKET_TYPE: ADD_GROUP
+
+ 	DISPLAY_STATUS:	1		//1图片广告 2文字广告
+
+	CAMPAIGN_ID: 111		//计划ID
+	GROUP_NAME: abc			//组NAME
+ 	
+	GROUP_PRICE_TYPE: 1		//1-CPM 2-CPC 1+2
+ 	GROUP_CPC_PRICE: 100		//CPC出价 //删除原GROUP_PRICE
+ 	GROUP_CPM_PRICE: 100		//CPM出价 //删除原GROUP_PRICE
+	
+	GROUP_TARGETING_TYPE: 1		//1浏览定向 2搜索定向
+	GROUP_DISEASE: 11,22,33		//TARGETING_TYPE = 1 生效
+	//GROUP_KEYWORD: aa,bb,cc		//TARGETING_TYPE = 2 生效
+}
+{
+	CODE: 0
+}
+
+//点击推广->删除组
+{
+	PACKET_TYPE: DEL_GROUP
+	GROUP_ID: 111			//组ID
+}
+{
+	CODE: 0
+}
+
+//点击推广->获取创意
+{
+	PACKET_TYPE: GET_CREATIVE
+	DATE_TYPE: 1 		//1今天 2昨天 3最近7天
+	FIND_TYPE: 1		//1-默认 2-NAME 4-STATUS 8-CAMPAIGN_ID 16-GROUP_ID
+	
+	SORT_TYPE: 1		//1正序  2倒序
+	SORT_COLUMN: 1		//1创意2推广计划3推广组4创意状态6展现次数7点击次数8点击率9平均点击价格10总消费11千次展现成本
+	
+	FIND_NAME_TYPE:1	//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null		//FIND_TYPE & 2 生效
+	
+	FIND_STATUS: 100	//1有效 2不宜推广 3暂停 4审核中 5审核拒绝 100全部
+	
+	CAMPAIGN_ID: 111 	//计划ID FIND_TYPE & 8 生效
+	GROUP_ID: 111 		//组ID FIND_TYPE & 16 生效
+	
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		CREATIVE_COUNT: 2 	//创意总数
+		CREATIVE_ENABLED: 1 	//有创意数量
+		CREATIVE_IMPRESSION: 1	//展现次数总计
+		CREATIVE_CLICK: 1	//点击次数总计
+		CREATIVE_CTR: 100% 	//点击率总计
+		CREATIVE_CPC: 10.10 	//平均点击价格总计
+		CREATIVE_COST: 100.00 	//总消费总计
+		CREATIVE_CPM: 100.00 	//千次展现成本总计
+
+	},
+	
+	LIST:[
+	{
+	CAMPAIGN_ID			//计划ID
+	CAMPAIGN_NAME			//计划名字
+	
+	GROUP_ID			//组ID
+	GROUP_NAME			//组名字
+	
+	CREATIVE_ID: 111		//创意ID
+	CREATIVE_NAME: abc		//创意名称
+	
+	CREATIVE_STATUS: 1 		//1有效 2不宜推广 3暂停 4审核中 5审核拒绝
+	CREATIVE_REFUSE_REASON		//拒绝理由
+	
+	CREATIVE_DESCRIPTION		//描述
+	CREATIVE_DESTINATION_URL	//访问URL
+	CREATIVE_DISPLAY_URL		//显示URL
+	
+	CREATIVE_APPEND_TYPE: 1		//1无附件创意 2指定附加创意
+	CREATIVE_APPEND_ID: null	//附加创意ID
+	
+	CREATIVE_IMPRESSION: 1		//展现次数
+	CREATIVE_CLICK: 1		//点击次数
+	CREATIVE_CTR: 100% 		//点击率
+	CREATIVE_CPC: 10.10 		//平均点击价格
+	CREATIVE_COST: 100.00 		//总消费 
+	CREATIVE_CPM: 100.00 		//千次展现成本
+	}
+	,
+	{
+	}
+	]
+}
+
+//点击推广->修改创意
+{
+	PACKET_TYPE: SET_CREATIVE
+	CREATIVE_ID: 123		//创意ID
+	UPDATE_TYPE: 1			//1-STATUS 2-CREATIVE_NAME 4-DESCRIPTIONPRICE 8-DESTINATION_URL 16-CREATIVE_DISPLAY_URL 32-CREATIVE_APPEND 64-MOBILE_DESTINATION_URL 128-MOBILE_DISPLAY_URL
+	CREATIVE_STATUS: 1		//1有效 2暂停
+	CREATIVE_NAME: abc		//创意NAME
+	
+	CREATIVE_DESCRIPTION		//描述
+	CREATIVE_DESTINATION_URL	//访问URL
+	CREATIVE_DISPLAY_URL		//显示URL
+
+	CREATIVE_APPEND_TYPE:1		//1空 2有
+	CREATIVE_APPEND_ID: 123		//附加创意ID
+	
+	MOBILE_DESTINATION_URL:		//移动访问URL
+	MOBILE_DISPLAY_URL:		//移动显示URL
+}
+{
+	CODE: 0
+}
+
+//点击推广->添加创意
+{
+	PACKET_TYPE: ADD_CREATIVE
+	GROUP_ID: 111			//组ID
+	
+	CREATIVE_NAME: abc		//创意NAME
+	
+	CREATIVE_DESCRIPTION		//描述
+	CREATIVE_DESTINATION_URL	//访问URL
+	CREATIVE_DISPLAY_URL		//显示URL
+	
+	CREATIVE_APPEND_TYPE: 1		//1无附加创建 2有附加创意
+	CREATIVE_APPEND_ID: abc		//附加创意ID
+}
+{
+	CODE: 0
+}
+
+//点击推广->删除创意
+{
+	PACKET_TYPE: DEL_CREATIVE
+	CREATIVE_ID: 123		//创意ID
+
+}
+{
+	CODE: 0
+}
+
+//点击推广->获取附加创意
+{
+	PACKET_TYPE: GET_CREATIVE_APPEND
+	FIND_TYPE: 1  					//1默认 2查询NAME 4状态
+	
+	SORT_TYPE: 1					//1正序  2倒序
+	SORT_COLUMN: 1					//1附加创意 2状态
+	
+	FIND_NAME: abc					//查找NAME
+	FIND_STATUS: 100				//1有效 2不宜推广 3暂停 4审核中 5审核拒绝 100全部
+}
+{
+	CODE: 0
+	LIST:[
+		{
+			APPEND_ID: 123			//附加创意ID
+			APPEND_CONTENT: abc		//内容
+			APPEND_STATUS: 1		//1有效 2暂停 3审核中 4审核拒绝
+			APPEND_REFUSE_REASON: abc	//STATUS == 4 生效 拒绝理由
+		},
+		{
+			...
+		}
+	     ]
+}
+
+//点击推广->修改附加创意
+{
+	PACKET_TYPE: SET_CREATIVE_APPEND
+	CREATIVE_APPEND_ID: 111		//附加创意ID
+	UPDATE_TYPE: 1			//1-STATUS 2-CONTENT
+	
+	APPEND_STATUS:1			//1有效 2暂停
+	APPEND_CONTENT: 11..22		//内容
+{
+	CODE: 0
+}
+
+//点击推广->添加附加创意
+{
+	PACKET_TYPE: ADD_CREATIVE_APPEND
+	APPEND_CONTENT: 11..22		//内容
+{
+	CODE: 0
+}
+
+//点击推广->删除附加创意
+{
+	PACKET_TYPE: DEL_CREATIVE_APPEND
+	CREATIVE_APPEND_ID: 111	//附加创意ID
+{
+	CODE: 0
+}
+
+//首页->趋势图->全部
+{
+
+	PACKET_TYPE: GET_STAT_TREND
+	DATE_TYPE:1		//1今天2昨天3最近7天
+}
+{
+	CODE: 0
+
+	ALL:
+	{	
+		IMG_BUDGET	//出价img
+		TEXT_BUDGE	//出价text
+		IMPRESSION: 1	//展现次数
+		CLICK: 1	//点击次数
+		COST: 100.00 	//总消费
+	},
+	
+	TEXT:
+	{
+		IMPRESSION: 1	//展现次数
+		CLICK: 1	//点击次数
+		COST: 100.00 	//总消费
+	},
+	
+	IMG:
+	{
+		IMPRESSION: 1	//展现次数
+		CLICK: 1	//点击次数
+		COST: 100.00 	//总消费
+	}
+}
+
+//首页->趋势图->文字推广
+{
+
+	PACKET_TYPE: GET_STAT_TREND_TEXT
+}
+{
+
+	CODE: 0
+	TIME: XXXX-XX-XX XX:XX:XX 	//服务器时间
+	LIST:	[
+	{
+		DATE: XXXX-XX-XX
+		IMPRESSION: 1		//展现次数
+		CLICK: 1		//点击次数
+		COST: 100.00 		//消费
+		CTR: 10.10		//点击率
+		CPC: 10.10 		//平均点击价格
+		CPM: 100.00 		//千次展现成本
+	}
+	,
+	{
+		...
+	}
+	...
+		]
+}
+
+//首页->趋势图->图片推广
+{
+
+	PACKET_TYPE: GET_STAT_TREND_IMG
+}
+{
+
+	CODE: 0
+	TIME: XXXX-XX-XX XX:XX:XX 	//服务器时间
+	LIST:	[
+	{
+		DATE: XXXX-XX-XX
+		IMPRESSION: 1		//展现次数
+		CLICK: 1		//点击次数
+		COST: 100.00 		//消费
+		CTR: 10.10		//点击率
+		CPC: 10.10 		//平均点击价格
+		CPM: 100.00 		//千次展现成本
+	}
+	,
+	{
+		...
+	}
+	...
+		]
+}
+
+//首页->获取公告
+{
+	PACKET_TYPE: GET_ANNOUNCEMENT
+	FIND_TYPE: 1		//1无效 2生效
+	FIND_NAME: abc		//查询NAME FIND_TYPE=2生效
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	//按时间倒序
+	COED: 0
+	INFO:
+	{
+		COUNT: 2
+		PAGE_INDEX: 1
+	}
+
+	LIST:[
+	{
+		DATE: XXXX-XX-XX	//时间
+		TITLE: abc		//标题
+		CONTENT: abc		//内容
+						
+	},
+	{
+		...
+	}
+	     ]
+}
+
+//报表管理->标准报告
+{
+	PACKET_TYPE: REPORT_STANDARD_CREATE
+	REPORT_NAME: abc			//报告NAME
+	REPORT_SPECIES: 1			//1-TEXT_CPC 2-IMG_CPM 4-IMG_CPC
+	REPORT_TYPE: 1				//1账户报告 2推广计划报告 3推广组报告 4创意报告
+	TIME_TYPE: 1				//1分日 2分周 3分月
+	TIME_START: 2013-10-01			//开始时间
+	TIME_END: 2013-10-01			//结束时间
+}
+{
+	CODE: 0
+}
+
+//报表管理->综合报告
+{
+	PACKET_TYPE: REPORT_COMPLEX_CREATE
+	REPORT_NAME: abc			//报告NAME
+	REPORT_SPECIES: 1			//1-TEXT_CPC 2-IMG_CPM 4-IMG_CPC
+	REPORT_TYPE: 1				//1一级地域 2二级地域
+	TIME_TYPE: 1				//1分日 2分周 3分月
+	TIME_START: 2013-10-01			//开始时间
+	TIME_END: 2013-10-01			//结束时间
+}
+{
+	CODE: 0
+}
+
+//报表管理->报告列表
+{
+	PACKET_TYPE: GET_REPORT_LIST
+	REPORT_BELONG:1				//1TEXT 2IMG
+}
+{
+	LIST[
+	{
+		REPORT_ID: 123			//报告ID
+		REPORT_NAME: abc		//报告NAME
+		REPORT_TYPE: 1			//1账户报告 2推广计划报告 3推广组报告 4创意报告 5一级地域 6二级地域
+		RANGE_TIME: XXX-XXX		//日期范围
+		CREATE_TIME:			//创建时间
+		STATUS: 1			//1生成中 2生成完成 3生成失败
+		PATH: www.a.com			//报告路径
+	}
+	,
+	{
+		...
+	}
+	   ]
+}
+
+//报表管理->删除报告
+{
+	PACKET_TYPE: DEL_REPORT
+	REPORT_ID: abc			//报告ID
+}
+{
+	CODE: 0
+}
+
+//批量操作
+{
+	PACKET_TYPE: BATCH_OPERATION
+ 	ID_TYPE:	//1计划 2组 3创意 4附加创意 5图片创意
+	ID:11,22,33	//批量ID
+
+	BATCH_TYPE: 1	//1状态 2删除 3修改组出价
+	STATUS: 1	//1有效 2暂停
+
+	GROUP_PRICE_TYPE: cpc 1, cpm 2, cpc + cpm 1 + 2 //BATCH_TYPE==3生效
+	GROUP_CPC_PRICE: 100				//BATCH_TYPE==3生效
+ 	GROUP_CPM_PRICE: 100                            //BATCH_TYPE==3生效
+}
+	
+//点击推广->获取图片创意
+{
+	PACKET_TYPE: GET_IMG_CREATIVE
+	DATE_TYPE:1		//1今天2昨天3最近7天
+	FIND_TYPE: 1		//1-默认 2-NAME  4-STATUS 8-CAMPAIGN_ID 16-GROUP_ID
+	
+	SORT_TYPE: 1		//1正序  2倒序
+	SORT_COLUMN: 1		//1创意图片2推广计划3推广组4创意状态6展现次数7点击次数8点击率9平均点击价格10总消费11千次展现成本
+	
+	FIND_NAME_TYPE:1	//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null		//FIND_TYPE & 2 生效
+	
+	FIND_STATUS: 100	//1有效 2不宜推广 3暂停 4审核中 5审核拒绝 6已删除 10DPS审核通过 11DSP审核中 12DPS审核拒绝 100全部
+	
+	CAMPAIGN_ID: 111 	//计划ID FIND_TYPE & 8 生效
+	GROUP_ID: 111 		//组ID FIND_TYPE & 16 生效
+	
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		CREATIVE_COUNT: 2 	//创意总数
+		CREATIVE_ENABLED: 1 	//有创意数量
+		CREATIVE_IMPRESSION: 1	//展现次数总计
+		CREATIVE_CLICK: 1	//点击次数总计
+		CREATIVE_CTR: 100% 	//点击率总计
+		CREATIVE_CPC: 10.10 	//平均点击价格总计
+		CREATIVE_COST: 100.00 	//总消费总计
+		CREATIVE_CPM: 100.00 	//千次展现成本总计
+
+	},
+	
+	LIST:[
+	{
+	CAMPAIGN_ID			//计划ID
+	CAMPAIGN_NAME			//计划名字
+	
+	GROUP_ID			//组ID
+	GROUP_NAME			//组名字
+	
+	CREATIVE_ID: 111		//创意ID
+	CREATIVE_NAME: abc		//创意名称
+	
+	CREATIVE_STATUS: 1 		//1有效 2不宜推广 3暂停 4审核中 5审核拒绝
+	CREATIVE_REFUSE_REASON		//拒绝理由 CREATIVE_STATUS=5 有效
+
+	CREATIVE_DSP_STATUS:			// 0DSP有效 1DPS审核中 2DSP审核拒绝 3初审中
+	CREATIVE_DSP_REFUSE_REASON		//DSP拒绝理由 CREATIVE_DSP_STATUS=2 有效
+
+	CREATIVE_IMG_SIZE: 1024		//图片尺寸
+	CREATIVE_IMG_SIZE_IMGLENGTH:	//图片大小
+	CREATIVE_FILE_PATH:		//图片路径
+	
+	CREATIVE_DESTINATION_URL:	//访问URL
+	CREATIVE_DISPLAY_URL:		//显示URL
+	
+	CREATIVE_IMPRESSION: 1		//展现次数
+	CREATIVE_CLICK: 1		//点击次数
+	CREATIVE_CTR: 100% 		//点击率
+	CREATIVE_CPC: 10.10 		//平均点击价格
+	CREATIVE_COST: 100.00 		//总消费 
+	CREATIVE_CPM: 100.00 		//千次展现成本
+	}
+	,
+	{
+	}
+	]
+}
+
+//账户信息->修改用户信息
+{
+	PACKET_TYPE: SET_USER_INFO
+
+	FIND_TYPE:1		//
+
+	COMPANY_NAME: abc 	//公司名称		1
+	COMPANY_SITE: abc 	//公司网址		2
+	INDUSTRY: abc 		//所属行业		4
+	PROVINCE_ID: abc 	//所在区域一级区域ID	8
+	CITY_ID: abc 		//所在区域二级区域ID	16
+	ADDRESS: abc 		//通信地址		32
+	POSTCODE: abc 		//邮编			64
+	CONTACT: abc 		//联系人		128
+	TELEPHONE: abc 		//电话
+	FAX: abc 		//传真
+	MOBILE: abc 		//移动电话
+	EMAIL: abc 		//电子邮件
+	WEBIM: abc 		//咨询链接
+}
+{
+	CODE: 0
+}
+
+//账户信息->获取密保
+{
+	PACKET_TYPE: GET_USER_PASS_PROTECT
+}
+{
+	PROTECT_QUESTION1: abc //未设置密保null 否则密保问题1
+	PROTECT_QUESTION2: abc //未设置密保null 否则密保问题2
+	PROTECT_QUESTION3: abc //未设置密保null 否则密保问题3
+}
+
+//账户信息->验证密保
+{
+	PACKET_TYPE: USER_PASS_PROTECT_AUTHEN
+	PROTECT_QUESTION: abc 	//密保问题
+	PROTECT_ANSWER: abc 	//密保答案
+}
+{
+	CODE: 0
+}
+
+//账户信息->设置密保
+{
+	PACKET_TYPE: SET_USER_PASS_PROTECT
+	PROTECT_QUESTION: abc 	//未设置密保填写null 否则填写密保问题
+	PROTECT_ANSWER: abc 	//未设置密保填写null 否则填写密保答案
+	PROTECT_QUESTION1: abc 	//密保问题1 
+	PROTECT_ANSWER1: abc 	//密保答案1 
+	PROTECT_QUESTION2: abc 	//密保问题2 
+	PROTECT_ANSWER2: abc 	//密保答案2 
+	PROTECT_QUESTION3: abc 	//密保问题3 
+	PROTECT_ANSWER3: abc 	//密保答案3
+}
+{
+	CODE: 0
+}
+
+//账户信息->修改用户密码
+{
+	PACKET_TYPE: SET_USER_PASS
+	PROTECT_QUESTION: abc 	//密保问题
+	PROTECT_ANSWER: abc 	//密保答案
+	PASS_OLD: abc 		//原密码MD5
+	PASS_NEW: abc 		//新密码明文
+}
+
+//财务管理->财务信息趋势图
+{
+
+	PACKET_TYPE: GET_MONEY_TREND
+}
+{
+	{TIME: XXXX-XX-XX XX:XX:XX, YEAR:{},MONTH:{}} 
+}
+
+//点击推广->获取区域CODE
+{
+	PACKET_TYPE: GET_REGION_CODE
+}
+{
+	 "九龙坡区":"1000400014", ... "江津区":"1000400013"
+}
+
+//点击推广->获取科室病种CODE
+{
+	PACKET_TYPE: GET_DISEASE_CODE
+}
+{
+	""男科":"101000000000000000000",... "弱精症":"123011000000000000000"
+}
+
+//点击推广->获取推广列表
+{
+	PACKET_TYPE: GET_SPERAD_LIST
+ 	DISPLAY_STATUS:	1	//1图片广告 2文字广告
+}
+{
+	CAMPAIGN_LIST:[
+		{
+			CAMPAIGN_ID: 352 		//计划ID
+			CAMPAIGN_NAME: 23123123 	//计划名字
+			CAMPAIGN_STATUS: 1 		//1有效 2暂停
+			GROUP_LIST: [
+				{
+					GROUP_ID: 454 		//组ID
+					GROUP_NAME: 123123 	//组名字
+					GROUP_STATUS: 1 	//1有效 2暂停
+				},
+				{
+					...
+				}
+			            ]
+		},
+		{
+			...
+		}
+	              ]
+}
+
+//点击推广->计划名称重复验证
+{
+	PACKET_TYPE: CAMPAIGN_NAME_CHECK
+
+ 	DISPLAY_STATUS:	1		//1图片广告 2文字广告
+
+	CAMPAIGN_NAME: abc		//计划NAME
+}
+{
+	CODE: 0
+}
+
+//点击推广->获取计划
+{
+	PACKET_TYPE: GET_CAMPAIGN
+
+ 	DISPLAY_STATUS:	1	//1图片广告 2文字广告
+
+	DATE_TYPE: 1 		//1今天 2昨天 3最近7天
+	FIND_TYPE: 1		//2-CAMPAIGN_NAME 4-CAMPAIGN_STATUS
+	
+	SORT_TYPE: 1		//1正序  2倒序
+	SORT_COLUMN: 1		//1推广计划 2状态 3每日预算 4展现次数 5点击次数 6点击率 7平均点击价格 8总消费 9千次展现成本
+	
+	FIND_NAME_TYPE:1	//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null 	//查询NAME FIND_TYPE & 2
+	
+	FIND_STATUS: 100 	//1有效 2处于暂停时段 3每日预算不足 4未开始 5暂停 6已下线 100全部 FIND_TYPE & 4
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		CAMPAIGN_COUNT: 2 	//计划总数
+		CAMPAIGN_ENABLED: 1 	//有效计划数量
+		CAMPAIGN_BUDGET: 100	//每日预算总计
+		CAMPAIGN_IMPRESSION: 1	//展现次数总计
+		CAMPAIGN_CLICK: 1	//点击次数总计
+		CAMPAIGN_CTR: 100% 	//点击率总计
+		CAMPAIGN_CPC: 10.10 	//平均点击价格总计
+		CAMPAIGN_COST: 100.00 	//总消费总计
+		CAMPAIGN_CPM: 100.00 	//千次展现成本总计
+
+	},
+	
+	LIST:[
+	{
+		CAMPAIGN_ID: 111		//计划ID
+		CAMPAIGN_NAME: abc		//计划名称
+		CAMPAIGN_STATUS: 1 		//1有效 2处于暂停时段 3每日预算不足 4未开始 5暂停 6已下线
+		CAMPAIGN_BUDGET: 100		//每日预算
+		CAMPAIGN_IMPRESSION: 1		//展现次数
+		CAMPAIGN_CLICK: 1		//点击次数
+		CAMPAIGN_CTR: 100% 		//点击率
+		CAMPAIGN_CPC: 10.10 		//平均点击价格
+		CAMPAIGN_COST: 100.00 		//总消费 
+		CAMPAIGN_CPM: 100.00 		//千次展现成本
+		
+		//修改使用
+		SCHEDULE_TYPE: 111		//1全时段,2自定义时段
+		SCHEDULE_SERIALIZE: aaa		//投放时段
+		
+		REGION_TYPE: 1			//1全区域 2自定义区域
+		REGION_SERIALIZE: 111..111	//投放区域序列化数据
+		
+		TIME_TYPE: 1			//1不限结束日期 2指定结束日期
+		BEGIN_TIME: 111			//开始时间
+		END_TIME: 111			//结束时间 TIME_TYPE == 2 生效
+	}
+	,
+	{
+	}
+	]
+}
+
+//点击推广->修改计划
+{
+	PACKET_TYPE: SET_CAMPAIGN
+
+ 	DISPLAY_STATUS:	1		//1图片广告 2文字广告
+
+	CAMPAIGN_ID: 123		//计划ID
+	UPDATE_TYPE: 1			//1-STATUS 2-BUDGET 4-REGION 8-SCHEDULE 16-TIME 32-CAMPAIGN_NAME
+	
+	CAMPAIGN_STATUS: 1		//1有效 2暂停
+	
+	CAMPAIGN_BUDGET: 100		//预算
+	
+	REGION_TYPE: 0			//1全区域 2自定义区域
+	REGION_SERIALIZE: 100...001	//多个区域逗号间隔 REGION_TYPE = 2 生效
+	
+	SCHEDULE_TYPE: 0		//1全时段 2自定义时段
+	SCHEDULE_SERIALIZE: 111...111	//168位序列表 SCHEDULE_TYPE = 2 生效
+	
+	TIME_TYPE: 0			//1不限结束日期 2指定结束日期 4指定开始日期
+	BEGIN_TIME: 			//开始日期 TIME_TYPE & 4 生效
+	END_TIME:			//结束日期 TIME_TYPE & 2 生效
+	
+	CAMPAIGN_NAME: abc		//计划NAME
+}
+{
+	CODE: 0
+}
+
+//点击推广->创建计划
+{
+	PACKET_TYPE: ADD_CAMPAIGN
+	
+ 	DISPLAY_STATUS:	1		//1图片广告 2文字广告
+	
+	CAMPAIGN_NAME: abc		//计划NAME
+	CAMPAIGN_BUDGET: 100		//预算
+	
+	REGION_TYPE: 1			//1全区域 2自定义区域
+	REGION_SERIALIZE: 100...001	//多个区域逗号间隔 REGION_TYPE = 2 生效
+	
+	SCHEDULE_TYPE: 1		//1全时段 2自定义时段
+	SCHEDULE_SERIALIZE: 111...111	//168位序列表 SCHEDULE_TYPE = 2 生效
+	
+	TIME_TYPE: 1			//1不限结束日期 2指定结束日期
+	BEGIN_TIME: 			//开始日期
+	END_TIME:			//结束日期 TIME_TYPE == 2 生效
+}
+}
+{
+	CODE: 0
+}
+
+//点击推广->删除计划
+{
+	PACKET_TYPE: DEL_CAMPAIGN
+	CAMPAIGN_ID: 123 //计划ID
+}
+{
+	CODE: 0
+}
+
+
+//点击推广->组名称重复验证
+{
+	PACKET_TYPE: GROUP_NAME_CHECK
+ 	
+	DISPLAY_STATUS:	1		//1图片广告 2文字广告
+	
+	CAMPAIGN_ID: 123		//计划ID
+	GROUP_NAME: abc			//组NAME
+
+	GROUP_ID_TYPE: 1		//1有效 2无效
+	GROUP_ID: 123			//组ID
+}
+{
+	CODE: 0
+}
+
+//点击推广->获取组
+{
+	PACKET_TYPE: GET_GROUP
+
+ 	DISPLAY_STATUS:	1	//1图片广告 2文字广告
+
+	DATE_TYPE: 1 		//1今天 2昨天 3最近7天
+	FIND_TYPE: 1		//1-默认 2-GROUP_NAME 4-STATUS 8-CAMPAIGN_ID
+	
+	SORT_TYPE: 1		//1正序  2倒序
+ 	SORT_COLUMN: 1		//1推广组 2推广计划 3推广组状态 4组CPC出价 5展现次数 6点击次数 7点击率 8平均点击价格 9总消费 10千次展现成本 11组CPM出价
+	
+	FIND_NAME_TYPE:1	//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null		//FIND_TYPE & 2 生效
+	
+	FIND_STATUS: 100	//1有效 2处于暂停时段 3每日预算不足 4未开始 5计划暂停 6已下线 7出价过低 8组暂停 100全部 FIND_TYPE & 4
+	
+	CAMPAIGN_ID: 111	//计划ID FIND_TYPE & 8 生效
+	
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		GROUP_COUNT: 2 		//组总数
+		GROUP_ENABLED: 1 	//有效组数量
+		GROUP_IMPRESSION: 1	//展现次数总计
+		GROUP_CLICK: 1		//点击次数总计
+		GROUP_CTR: 100% 	//点击率总计
+		GROUP_CPC: 10.10 	//平均点击价格总计
+		GROUP_COST: 100.00 	//总消费总计
+		GROUP_CPM: 100.00 	//千次展现成本总计
+
+	},
+	
+	LIST:[
+	{
+	CAMPAIGN_ID: abc		//计划ID
+	CAMPAIGN_NAME: abc		//计划名称
+	GROUP_ID: 111			//组ID
+	GROUP_NAME: abc			//组名称
+	
+	GROUP_STATUS: 1	 		//1有效 2处于暂停时段 3每日预算不足 4未开始 5计划暂停 6已下线 7出价过低 8组暂停
+ 	GROUP_CPC_PRICE: 100		//CPC出价 //删除原GROUP_PRICE
+ 	GROUP_CPM_PRICE: 100		//CPM出价 //删除原GROUP_PRICE
+	GROUP_TARGETING_TYPE: 1		//1浏览定向 2搜索定向
+	GROUP_DISEASE: 11,22,33		//TARGETING_TYPE = 1 生效 科室病种CODE
+	
+	GROUP_IMPRESSION: 1		//展现次数
+	GROUP_CLICK: 1			//点击次数
+	GROUP_CTR: 100% 		//点击率
+	GROUP_CPC: 10.10 		//平均点击价格
+	GROUP_COST: 100.00 		//总消费 
+	GROUP_CPM: 100.00 		//千次展现成本
+	}
+	,
+	{
+	}
+	]
+}
+
+//点击推广->获取计划unique
+{
+	PACKET_TYPE: GET_CAMPAIGN_UNIQUE
+	CAMPAIGN_ID: 123		//计划ID
+}
+{
+	CODE: 0
+	
+	CAMPAIGN_ID: 111		//计划ID
+	CAMPAIGN_NAME: abc		//计划名称
+	CAMPAIGN_STATUS: 1 		//1有效 2处于暂停时段 3每日预算不足 4未开始 5暂停 6已下线
+	CAMPAIGN_BUDGET: 100		//每日预算
+	CAMPAIGN_IMPRESSION: 1		//展现次数
+	CAMPAIGN_CLICK: 1		//点击次数
+	CAMPAIGN_CTR: 100% 		//点击率
+	CAMPAIGN_CPC: 10.10 		//平均点击价格
+	CAMPAIGN_COST: 100.00 		//总消费 
+	CAMPAIGN_CPM: 100.00 		//千次展现成本
+	
+	//修改使用
+	SCHEDULE_TYPE: 111		//1全时段,2自定义时段
+	SCHEDULE_SERIALIZE: aaa		//投放时段
+	
+	REGION_TYPE: 1			//1全区域 2自定义区域
+	REGION_SERIALIZE: 111..111	//投放区域序列化数据
+	
+	TIME_TYPE: 1			//1不限结束日期 2指定结束日期
+	BEGIN_TIME: 111			//开始时间
+	END_TIME: 111			//结束时间 TIME_TYPE == 2 生效
+}
+
+//点击推广->获取组unique
+{
+	PACKET_TYPE: GET_GROUP_UNIQUE
+	GROUP_ID: 123			//组ID
+}
+{
+	CODE: 0
+	
+	CAMPAIGN_ID: abc		//计划ID
+	CAMPAIGN_NAME: abc		//计划名称
+	GROUP_ID: 111			//组ID
+	GROUP_NAME: abc			//组名称
+	
+	GROUP_STATUS: 1	 		//1有效 2处于暂停时段 3每日预算不足 4未开始 5计划暂停 6已下线 7出价过低 8组暂停
+ 	GROUP_CPC_PRICE: 100		//CPC出价 //删除原GROUP_PRICE
+ 	GROUP_CPM_PRICE: 100		//CPM出价 //删除原GROUP_PRICE
+	GROUP_TARGETING_TYPE: 1		//1浏览定向 2搜索定向
+	GROUP_DISEASE: 11,22,33		//TARGETING_TYPE = 1 生效 科室病种CODE
+	
+	GROUP_IMPRESSION: 1		//展现次数
+	GROUP_CLICK: 1			//点击次数
+	GROUP_CTR: 100% 		//点击率
+	GROUP_CPC: 10.10 		//平均点击价格
+	GROUP_COST: 100.00 		//总消费 
+	GROUP_CPM: 100.00 		//千次展现成本
+}
+
+//点击推广->附加创意unique
+{
+	PACKET_TYPE: GET_CREATIVE_APPEND_UNIQUE
+	CREATIVE_APPEND_ID: 123			//附加创意ID
+}
+{
+	CODE: 0
+	APPEND_ID: 123			//附加创意ID
+	APPEND_CONTENT: abc		//内容
+	APPEND_STATUS: 1		//1有效 2不宜推广 3暂停 3审核中 4审核拒绝
+	APPEND_REFUSE_REASON: abc	//STATUS == 4 生效 拒绝理由
+	
+}
+
+//点击推广->修改图片创意
+{
+	PACKET_TYPE: SET_IMG_CREATIVE
+	CREATIVE_ID: 123			//创意ID
+	UPDATE_TYPE: 1				//1-STATUS 2-NAME 4-访问URL 8-显示URL 16-更换图片CREATIVE_IMG_ID
+	
+	CREATIVE_STATUS: 1			//1有效 2暂停
+	CREATIVE_NAME: abc			//创意名字
+	CREATIVE_DESTINATION_URL:		//访问URL
+	CREATIVE_DISPLAY_URL:			//显示URL
+	CREATIVE_IMG_ID: 123			//图片ID
+}
+{
+	CODE: 0
+}
+
+//点击推广->添加图片创意
+{
+	PACKET_TYPE: ADD_IMG_CREATIVE
+	
+	GROUP_ID: 111				//组ID
+	CREATIVE_IMG_ID:111,222,333		//图片ID
+	
+	CREATIVE_DESTINATION_URL:		//访问URL
+	CREATIVE_DISPLAY_URL:			//显示URL
+}
+{
+	CODE: 0
+}
+
+//点击推广->删除图片创意
+{
+	PACKET_TYPE: DEL_IMG_CREATIVE
+	CREATIVE_ID: 123			//创意ID
+
+}
+{
+	CODE: 0
+}
+
+//修改图片信息
+{
+	PACKET_TYPE: SET_UPLOAD_IMG_INFO
+	CREATIVE_IMG_ID: 123		//创意ID
+	CREATIVE_NAME: abc		//图片名称
+
+}
+{
+	CODE: 0
+}
+
+
+//客户管理->管理->投放中心
+{
+	
+	PACKET_TYPE: DELIVERY_CENTER_LOGIN
+	KEY: 123
+}
+{
+	CODE: 0	
+}
+
+
+//财务管理->充值查询
+{
+	PACKET_TYPE: GET_MONEY_RECHARGE
+	FIND_TYPE:			//1NAME  2TIME 
+
+	MONEY_TYPE:			//1支票 2汇款 3现金 100全部
+	FIND_NAME_TYPE:			//1流水号 2凭证
+	FIND_NAME: abc			//查询NAME		1
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1创意NAME 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	...
+}
+
+//点击推广->获取搜索词报告
+{
+	PACKET_TYPE: GET_REPORT_GROUP_KEYWORD
+	CAMPAIGN_ID: 111	//计划ID 
+	GROUP_ID: 111			//组ID
+
+ 	DISPLAY_STATUS:	1	//1图片广告 2文字广告
+	FIND_TYPE: 1			//1-默认(全部) 2-FIND_NAME
+	FIND_NAME_TYPE:1		//1精准 2模糊 FIND_TYPE & 2
+	FIND_NAME: null 		//查询NAME FIND_TYPE & 2
+}
+{
+	...
+}
+
+//点击推广->复制创意
+{
+	PACKET_TYPE: COPY_CREATIVE
+	CREATIVE_TYPE:		//1图片	2文字
+	ID: 111			//创意ID  11,22,33
+	CAMPAIGN_ID: 111	//粘贴 计划ID 
+	GROUP_ID: 111		//粘贴 组ID
+{
+{
+	CODE: 0
+}
+
+//品牌广告->获取订单
+{
+	PACKET_TYPE: GET_BRAND
+	STATUS:			//1投放中 2已结束 3待投放 4申请中
+	CREATIVE_STATUS		//1申请中 2通过 3拒绝 4未设置 100全部
+
+	DEPT_TYPE:		//1默认(全部) 2DEPT生效
+	DEPT_SERIALIZE		//1111,2222,3333,4444
+	
+	REGION_TYPE:		//1默认(全部) 2REGION生效
+	REGION_SERIALIZE:	//1111,2222,3333,4444
+	
+++	SHOW_TIME_TYPE		//1全部 2指定投放时间
+	SHOW_TIME_START: 	//投放开始时间
+	SHOW_TIME_END: 		//投放结束时间
+
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN:		//1订单编号 2投放科室 3投放地域 4投放时长 5开始日期 6结束日期 7广告消费 8创建时间 9创意状态 10订单状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	},
+	LIST:[
+	{
+		BRAND_ID         	//订单ID
+		AD_ORDER_NO         	//订单号
+		DEPT_CODE           	//投放科室
+		REGION_TYPE         	//投放地域 0全部 1指定
+		REGION_SERIALIZE    	//投放地域 REGION_TYPE=2 生效
+		DAYS		    	//投放时长
+		SHOW_TIME_START		//开始投放时间
+		SHOW_TIME_END:		//结束投放时间
+		PRICE               	//出价
+		CREATE_TIME         	//创建时间
+		
+		BRAND_STATUS:		//1投放中 2已结束 3待投放 4申请中 5已过期 6申请拒绝
+		BRAND_REFUSE_REASON     //拒绝理由 STATUS==6 生效
+
+		CREATIVE_STATUS		//1审核中 2通过 3拒绝 4未设置
+		CREATIVE_REFUSE_REASON	//CREATIVE_STATUS==2生效
+	
+		INSPECTION_STATUS	//1从来没有审核通过 2曾经有审核通过
+	},
+	...
+	]
+}
+
+//品牌广告->添加订单
+{
+	PACKET_TYPE: ADD_BRAND
+
+	REGION_TYPE         	//投放地域 1全部 2指定区域
+	REGION_SERIALIZE    	//投放地域code 11,22,33,44
+	
+	DEPT_SERIALIZE		//投放科室 code 11,22,33,44
+	
+	SHOW_TIME_START 	//投放开始时间
+	SHOW_TIME_END 		//投放结束时间
+	
+	PRICE               	//出价
+}
+{
+	CODE:0
+}
+
+//品牌广告->获取订单创意
+{
+	PACKET_TYPE: GET_BRAND_CREATIVE
+	BRAND_ID         	//订单ID
+	MOD_STATUS		//1当前 2修改前
+}
+{
+	CODE: 0
+	BRAND_ID         	//订单ID
+	BRAND_CREATIVE_ID   	//品牌广告创意ID
+	TITLE               	//标题
+	DESCRIPTION         	//描述
+	DESTINATION_URL     	//访问URL
+	DISPLAY_URL         	//显示URL(暂时未用)
+	TELEPHONE           	//电话
+	WEB_SITE            	//官方网址
+	WEB_IM              	//WEBIM
+	GUAHAO_URL		//挂号
+	CREATIVE_STATE      	//0待审核 1审核通过 2审核拒绝
+	REFUSE_REASON       	//拒绝理由 CREATIVE_STATE=2 生效
+	CREATE_TIME         	//创建时间
+	LAST_UPDATE_TIME	//修改时间
+	INSPECTION_STATUS	//1从来没有审核通过 2曾经有审核通过
+	
+	BRAND_CREATIVE: [
+
+		SEQUENCE	//0:焦点 1-5:图片1-5
+		IMG_PATH	//图片路径
+		IMG_URL		//图片链接
+	]
+}
+
+//品牌广告->添加订单创意
+{
+	PACKET_TYPE: ADD_BRAND_CREATIVE
+	BRAND_ID         	//订单ID
+	INSERT_TYPE: 		//1WEB_IM  2GUAHAO_URL 
+	
+	TITLE               	//标题
+	DESCRIPTION         	//描述
+	DESTINATION_URL     	//访问URL
+	DISPLAY_URL         	//显示URL(暂时未用)
+	TELEPHONE           	//电话
+	WEB_SITE            	//官方网址
+	WEB_IM              	//WEBIM
+	GUAHAO_URL		//挂号
+
+	IMG0_ID			//焦点图片ID
+	IMG0_URL		//焦点图片链接
+	
+	IMG1_ID			//图片1
+	IMG1_URL		//图片1链接
+	
+	IMG2_ID			//...
+	IMG2_URL		//...
+	
+	IMG3_ID			//...
+	IMG3_URL		//...
+	
+	IMG4_ID			//...
+	IMG4_URL		//...
+	
+	IMG5_ID			//...
+	IMG5_URL		//...
+}
+
+//品牌广告->修改订单创意
+{
+	PACKET_TYPE: SET_BRAND_CREATIVE
+	BRAND_CREATIVE_ID   	//品牌广告创意ID
+ 	UPDATE_TYPE		//该项值参考如下选项累加
+	
+	TITLE               	//标题					1
+	DESCRIPTION         	//描述					2
+	DESTINATION_URL     	//访问URL				4
+	DISPLAY_URL         	//显示URL				8
+	TELEPHONE           	//电话					16
+	WEB_SITE            	//官方网址				32
+	WEB_IM              	//WEBIM					64
+	GUAHAO_URL		//挂号					128
+	
+	IMG0_ID			//焦点图片ID				256
+	IMG0_URL		//焦点图片链接				512
+	
+	IMG1_ID			//图片1					1024
+	IMG1_URL		//图片1链接				2048
+	
+	IMG2_ID			//...					4096
+	IMG2_URL		//...					8192
+	
+	IMG3_ID			//...					16384
+	IMG3_URL		//...					32768
+	
+	IMG4_ID			//...					65536
+	IMG4_URL		//...					131072
+	
+	IMG5_ID			//...					262144
+	IMG5_URL		//...					524288
+}
+{
+	CODE:0
+}
+
+
+//品牌广告->删除申请中订单
+{
+	PACKET_TYPE: DEL_BRAND
+	BRAND_ID         	//订单ID  11,22,33
+}
+{
+
+	CODE: 0
+}
+
+

@@ -1,0 +1,1003 @@
+
+//判断是否登录
+{
+	PACKET_TYPE: USER_LOGIN_CHECK
+}
+{
+	CODE: 1000
+}
+
+
+//获取验证码png
+{
+	PACKET_TYPE: GET_CAPTCHA
+}
+
+
+//登录
+{
+	PACKET_TYPE: LOGIN
+	ACCOUNT: abc 		//用户名
+	PASSWORD: abc 		//密码
+	VAR_CODE: abc 		//验证码
+}
+{
+	CODE: 0
+}
+
+
+//退出登录
+{
+	PACKET_TYPE: LOGOUT
+}
+{
+	CODE: 0
+}
+
+
+//获取标题栏信息
+{
+        PACKET_TYPE: GET_TITLE_INFO
+}
+{
+	CODE: 0
+	LOGIN_NAME: abc    //用户名
+}
+
+
+//广告审核->获取文字创意
+{
+	PACKET_TYPE: GET_TEXT_CREATIVE
+
+	FIND_NAME_COL: 1	//1创意名 2登录名 3描述1 100全部
+	FIND_NAME: abc		//对应FIND_NAME_COL
+	FIND_STATUS: 100	//1有效 2不宜推广 4审核中 5审核拒绝 100全部
+	BALANCE_TYPE:1		//1全部 2隐藏余额
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1创意NAME 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:{PAGE_INDEX: 1, CREATIVE_COUNT: 100},
+	LIST:[
+	{
+		ACCOUNT_ID: 11			//用户ID
+		ACCOUNT_NAME: abc		//用户NAME
+		
+		CREATIVE_ID: 111		//创意ID
+		CREATIVE_NAME: abc		//创意名称
+	
+		CREATIVE_STATE: 1 		//1有效 2不宜推广 4审核中 5审核拒绝
+		CREATIVE_REFUSE_REASON		//拒绝理由
+	
+		CREATIVE_DESCRIPTION		//描述
+		CREATIVE_DESTINATION_URL	//访问URL
+		CREATIVE_DISPLAY_URL		//显示URL
+	
+		CREATIVE_APPEND_TYPE: 1		//1无附件创意 2有附加创意
+		CREATIVE_APPEND_ID: null	//附加创意ID
+
+		LATE_LOGIN_TIME: 2013-10-01	//最后修改时间
+		
+		AUDITOR_NAME			//最后审核人
+		AUDITOR_UPDATE_TIME		//最后审核时间
+	}
+	,
+	{
+		...
+	}
+		...
+	]
+}
+
+
+//广告审核->获取附加创意
+{
+	PACKET_TYPE: GET_APPEND_CREATIVE
+
+	FIND_NAME_COL: 1		//1创意名 2登录名 100全部
+	FIND_NAME: abc		//FIND_TYPE 1创意名 2登录名 100无效
+	FIND_STATUS: 100	//1有效 2不宜推广 4审核中 5审核拒绝 100全部
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1登录名 2修改时间 3状态
+	
+	BALANCE_TYPE:1		//1全部 2隐藏余额
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:{PAGE_INDEX: 1, CREATIVE_COUNT: 100},
+	LIST:[
+	{
+		ACCOUNT_ID: 11			//用户ID
+		ACCOUNT_NAME: abc		//用户NAME
+		
+		CREATIVE_ID: 111		//附加创意ID
+		CREATIVE_NAME: abc		//附加创意名称
+	
+		CREATIVE_STATE: 1 		//1有效 2不宜推广 4审核中 5审核拒绝
+		CREATIVE_REFUSE_REASON		//拒绝理由
+
+		CREATIVE_CONTENT: ...		//附加创意内容
+	
+		LATE_LOGIN_TIME: 2013-10-01	//最后修改时间
+
+		AUDITOR_NAME			//最后审核人
+		AUDITOR_UPDATE_TIME		//最后审核时间
+	}
+	,
+	{
+		...
+	}
+		...
+	]
+}
+
+//广告审核->获取附加创意unique
+{
+	PACKET_TYPE: GET_APPEND_CREATIVE_UNIQUE
+	CREATIVE_ID: 123			//附加创意ID
+}
+{
+	ACCOUNT_ID: 11				//用户ID
+	ACCOUNT_NAME: abc			//用户NAME
+
+	CREATIVE_ID: 111			//附加创意ID
+	CREATIVE_NAME: abc			//附加创意名称
+	
+	CREATIVE_STATE: 1 			//1有效 2不宜推广 4审核中 5审核拒绝
+	CREATIVE_REFUSE_REASON			//拒绝理由
+
+	CREATIVE_CONTENT: ...			//附加创意内容
+
+	LATE_LOGIN_TIME: 2013-10-01		//最后修改时间
+		
+	AUDITOR_NAME			//最后审核人
+	AUDITOR_UPDATE_TIME		//最后审核时间
+	
+}
+
+//广告审核->获取图片创意
+{
+	PACKET_TYPE: GET_IMG_CREATIVE
+
+	FIND_NAME_COL: 1	//1创意名 2登录名 100全部
+	FIND_NAME: abc		//对应FIND_NAME_COL
+
+	FIND_STATUS: 100	//1有效 2不宜推广 4审核中 5审核拒绝 100全部
+	DSP_STATUS:		//1DPS有效 2DPS审核中 3dsp审核拒绝 4dps初审 100全部
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1创意NAME 2登录名 3修改时间 4状态
+	
+	BALANCE_TYPE:1		//1全部 2隐藏余额
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:{PAGE_INDEX: 1, CREATIVE_COUNT: 100},
+	LIST:[
+	{
+		ACCOUNT_ID: 11			//用户ID
+		ACCOUNT_NAME: abc		//用户NAME
+		
+		CREATIVE_ID: 111		//创意ID
+		CREATIVE_NAME: abc		//创意名称
+	
+		CREATIVE_STATE: 1 		//1有效 2不宜推广 4审核中 5审核拒绝
+		CREATIVE_REFUSE_REASON		//拒绝理由
+	
+		CREATIVE_IMG_SIZE:		//图片尺寸
+		CREATIVE_IMG_SIZE_IMGLENGTH	//图片大小
+		CREATIVE_FILE_PATH		//图片路径
+	
+		CREATIVE_DESTINATION_URL	//访问URL
+		CREATIVE_DISPLAY_URL		//显示URL
+	
+		CREATIVE_APPEND_TYPE: 1		//1无附件创意 2有附加创意
+		CREATIVE_APPEND_ID: null	//附加创意ID
+
+		LATE_LOGIN_TIME: 2013-10-01	//最后修改时间
+	
+		AUDITOR_NAME			//最后审核人
+		AUDITOR_UPDATE_TIME		//最后审核时间
+		
+		CREATIVE_DSP_STATE		//0通过 1审核中 2拒绝 3初审中
+		CREATIVE_DSP_REFUSE_REASON	//拒绝理由 CREATIVE_DSP_STATE=2 生效
+	}
+	,
+	{
+		...
+	}
+		...
+	]
+}
+
+//广告审核->修改创意
+{
+	PACKET_TYPE: SET_CREATIVE_BATCH
+	
+	CREATIVE_TYPE:1				//1文字创意 2附加创意 3图片创意
+	CREATIVE_STATUS: 1			//1通过 2拒绝
+	CREATIVE_REFUSE_REASON			//拒绝理由 CREATIVE_STATUS=2 生效
+	CREATIVE_ID_ARRAY: 111,222,333		//创意ID
+}
+{
+	CODE: 0
+}
+
+//广告审核->不宜推广检测
+{
+	PACKET_TYPE: DESTINATION_URL_CHECK
+	CREATIVE_TYPE:1				//1文字创意 2附加创意 3图片创意
+	CREATIVE_ID: 123			//创意ID
+}
+{
+	CODE: 0
+}
+
+
+//财务管理->媒体消费汇总
+{
+	PACKET_TYPE: REPORT_MEDIA
+	FIND_TYPE:				//暂无
+	MEDIA_TYPE:				//1媒体ID 2全部
+	MEDIA_ID:				//媒体ID
+	
+	TIME_START: 2013-10-01                  //开始时间
+	TIME_END: 2013-10-01                    //结束时间
+}
+{
+	REPORT_ID: xxx-xxx			//报告ID
+	CODE: 0
+}
+
+//财务管理->客户消费汇总
+{
+	PACKET_TYPE: REPORT_ACCOUNT
+	FIND_TYPE:				//暂无
+	MEDIA_TYPE:				//1媒体ID 2全部
+	MEDIA_ID:				//媒体ID
+	//FIND_NAME_TYPE			//暂无
+	//FIND_NAME				//暂无
+	TIME_START: 2013-10-01                  //开始时间
+	TIME_END: 2013-10-01                    //结束时间
+}
+{
+
+	REPORT_ID: xxx-xxx			//报告ID
+	CODE: 0
+}
+
+//财务管理->报告状态查询
+{
+	PACKET_TYPE: REPORT_STATUS
+	REPORT_ID: xxx-xxx			//报告ID
+}
+{
+
+	CODE: 0
+	STATUS: 1				//1生成中 2生成完成 3生成失败
+	PATH: null				//STATUS = 2有效	
+}
+
+//客户管理->帐号管理->获取账户列表
+{
+	PACKET_TYPE: GET_MANAGER_ACCOUNT_LIST
+	FIND_TYPE: 1			//查询类型1  2  4  8
+
+	FIND_NAME_TYPE:			//1登录名 2公司名 3公司网址 4所在区域 5大于 6小于 7销售 8客服部
+	FIND_NAME: abc			//查询NAME		1
+	
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	STATUS: 1			//1有效2禁用		4
+	ACCOUNT_ID:			//			8
+	
+	SORT_TYPE: 1			//1正序 2倒序
+	SORT_COLUMN: 1			//1登录名 2公司名称 3所在区域 4消费金额	5开户时间 6状态
+	
+	PAGE_COUNT: 20 			//每页多少条
+	PAGE_INDEX: 1 			//第几页
+}
+{
+	CODE: 0
+	
+	INFO:{
+		
+		PAGE_INDEX: 1		//当前页数
+		COUNT: 100		//总条数
+	}
+
+	LIST:[
+	{
+	ACCOUNT_ID: 111		           //ACCOUNT_ID
+	API_TOKEN                          //API-TOKEN
+	LOGIN_NAME                         //登录名称
+	COMPANY_NAME                       //公司名称
+	COMPANY_SITE                       //公司网址
+	DOMAIN                             //公司域名
+	INDUSTRY                           //所属行业
+	PROVINCE_ID                        //所在区域1级
+	CITY_ID                            //所在区域2级
+	ADDRESS                            //通讯地址
+	POSTCODE                           //邮编
+	CONTACT                            //联系人
+	TELEPHONE                          //电话
+	FAX                                //传真
+	MOBILE                             //移动电话
+	EMAIL                              //电子邮件
+	WEBIM                              //WEBIM
+	GUAHAO_TOKEN                       //挂号网API
+	HOSPITAL_IMG                       //医院缩略图
+	LOGIN_PASSWORD			   //登录密码
+	PROTECT_QUESTION1		   //密保1 
+	PROTECT_ANSWER1                    //答案1
+	PROTECT_QUESTION2                  //密保2
+	PROTECT_ANSWER2                    //答案2
+	PROTECT_QUESTION3                  //密保3
+	PROTECT_ANSWER3                    //答案3
+	PROTECT_EMAIL                      //密保邮件
+	PROTECT_MOBILE                     //密保手机
+	REGION_NAME_CN                     //所在区域中文
+	CONSUMPTION                        //消费金额
+	CREATE_TIME	                   //创建时间
+	STATUS				   //1有效 2禁用
+	
+	SALES			//销售				
+	CUSTOMER_SERVICE	//客服部			
+	PLACE_REGION		//1全部  2省级
+	JOIN_DSP		//1参与DSP投放  0不参与
+	}
+	...
+	]
+}
+
+//客户管理->帐号管理->添加账户
+{
+	PACKET_TYPE: ADD_MANAGER_ACCOUNT
+	INSERT_TYPE: 1
+	
+	LOGIN_NAME		//登录名
+	LOGIN_PASSWORD		//登录密码
+	API_TOKEN		//API-TOKEN
+	COMPANY_NAME		//公司名
+	COMPANY_SITE		//公司URL
+	INDUSTRY		//所属行业			1
+	PROVINCE_ID		//省CODE
+	CITY_ID			//市CODE
+	ADDRESS			//通讯地址
+	POSTCODE		//邮编
+	CONTACT			//联系人
+	TELEPHONE		//电话
+	FAX			//传真				2
+	MOBILE			//移动电话
+	EMAIL			//电子邮件
+	WEBIM			//WEBIM				4
+	GUAHAO_TOKEN		//挂号网TOKEN			8
+	REGION_NAME_CN		//区域名称(省CODE + 市CODE)
+	HOSPITAL_IMG		//医院缩略图			16
+	
+	SALES			//销售				32	
+	CUSTOMER_SERVICE	//客服部			64
+	PLACE_REGION		//1全部  2省级
+	JOIN_DSP		//1参与DSP投放  0不参与
+}
+
+//客户管理->帐号管理->修改账户信息
+{
+	PACKET_TYPE: SET_MANAGER_ACCOUNT_INFO
+	UPDATE_TYPE: 1 + 2 + 4 + 8 + 1024 ...
+	ACCOUNT_ID: 111
+	
+	COMPANY_NAME                       //公司名称		1
+	COMPANY_SITE                       //公司网址		2	
+	INDUSTRY                           //所属行业		4
+	PROVINCE_ID                        //所在区域1级	8
+	CITY_ID                            //所在区域2级	16
+	ADDRESS                            //通讯地址		32
+	POSTCODE                           //邮编		64
+	CONTACT                            //联系人		128
+	TELEPHONE                          //电话		256
+	FAX                                //传真		512
+	MOBILE                             //移动电话		1024
+	EMAIL                              //电子邮件		2048
+	WEBIM                              //WEBIM		4096
+	GUAHAO_TOKEN                       //挂号网API		8192	
+	HOSPITAL_IMG                       //医院缩略图		16384
+	LOGIN_PASSWORD			   //登录密码		32768
+	REGION_NAME_CN                     //所在区域中文	65536
+	STATUS				   //1有效 2禁用	131072
+	
+	SALES				   //销售		262144				
+	CUSTOMER_SERVICE		   //客服部		524288
+	PLACE_REGION			//1全部  2省级		1048576
+	JOIN_DSP                	//1参与DSP投放  0不参与	2097152
+}
+{
+	CODE: 0
+}
+
+//客户管理->帐号管理->删除账户
+{
+	
+	PACKET_TYPE: DEL_MANAGER_ACCOUNT
+	ACCOUNT_ID: 123
+}
+{
+	CODE: 0
+}
+
+
+//客户管理->公告管理->添加公告
+{
+	
+	PACKET_TYPE: ADD_MANAGER_ANNOUNCEMENT
+	ANNOUNCEMENT_TITLE:	//标题
+	CONTENT：		//内容
+	SEND_TIME:		//发布时间
+}
+{
+	CODE: 0
+}
+
+//客户管理->公告管理->修改公告
+{
+	
+	PACKET_TYPE: SET_MANAGER_ANNOUNCEMENT
+	ID:		//公告ID
+	UPDATE_TYPE:	//1发布日期  2标题 4内容
+	
+	SEND_TIME:		//发布时间
+	ANNOUNCEMENT_TITLE:	//标题
+	CONTENT：		//内容
+}
+{
+	CODE: 0
+}
+
+//客户管理->公告管理->删除公告
+{
+	
+	PACKET_TYPE: DEL_MANAGER_ANNOUNCEMENT
+	ANNOUNCEMENT_ID:		//公告ID
+}
+{
+	CODE: 0
+}
+
+//客户管理->公告管理->获取公告
+{
+	
+	PACKET_TYPE: GET_MANAGER_ANNOUNCEMENT
+
+	FIND_TYPE:			//1NAME  2TIME 4STATUS
+	
+	FIND_NAME: abc			//查询NAME		1
+	TIME_TYPE:			//1发布时间  2创建时间yyyy-mm-dd
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	STATUS: 1			//1代发布 2发布成功
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1创意NAME 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	
+	INFO:{
+		
+		PAGE_INDEX: 1	//当前页数
+		COUNT: 100	//总条数
+	}
+
+	LIST:[
+	{
+
+	ANNOUNCEMENT_ID		//公告ID
+	ANNOUNCEMENT_TITLE	//标题
+	SEND_TIME		//发布时间
+	SEND_STATE		//状态
+	CREATE_TIME		//创建时间
+	CONTENT			//内容
+	}
+	...
+	]
+}
+
+
+//财务管理->充值管理->获取列表
+{
+	
+	PACKET_TYPE: GET_MONEY_OPERATION
+	FIND_TYPE:			//1NAME 2TIME 4STATUS 16隐藏从未充值的账户
+	
+	FIND_NAME_TYPE:			//1登录名 2公司名 3公司网址 4投资大于 5投资小于 6余额大于 7余额等于
+	FIND_NAME: abc			//查询NAME		1
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	
+	SORT_TYPE: 1			//1正序 2倒序
+	SORT_COLUMN: 1			//1创意NAME 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 			//每页多少条
+	PAGE_INDEX: 1 			//第几页
+}
+{
+	...
+}
+
+
+//财务管理->充值管理->充值
+{
+	
+	PACKET_TYPE: ADD_MONEY_OPERATION
+	BRAND_TYPE			//0非品牌广告 1品牌广告
+	ACCOUNT_ID,			//充值账户ID
+	MONEY,				//充值金额(虚拟金额)
+	PAYMENT_TYPE			//付款方式1支票 2汇款 3现金
+	ACCOUNTING_DOCUMENT_NUMBER,	//凭证号
+	ACCOUNTING_DOCUMENT_FILE,	//图片路径
+	ACCOUNTING_DOCUMENT_REMARK,	//凭证备注
+	DISCOUNT			//虚拟金额比例
+}
+{
+	CODE: 0
+	KEY: 123
+}
+
+//财务管理->充值管理->充值确认
+{
+	
+	PACKET_TYPE: ADD_MONEY_OPERATION_CONFIRM 
+	KEY: 123
+}
+{
+	CODE: 0
+}
+
+//财务管理->充值查询
+{
+	
+	PACKET_TYPE: GET_MONEY_LIST
+	FIND_TYPE:			//1NAME  2TIME 8ACCOUNT_ID
+	
+	MONEY_TYPE:			//1支票 2汇款 3现金 100全部
+	FIND_NAME_TYPE:			//1登录名 2公司名 3公司网址 4流水号 5等于 6大于 7小于 8凭证
+	FIND_NAME: abc			//查询NAME		1
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	ACCOUNT_ID			//账户ID		8
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN: 1		//1创意NAME 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	...
+}
+
+//客户管理->管理去投放中心
+{
+	
+	PACKET_TYPE: DELIVERY_CENTER
+	ACCOUNT_ID			//账户ID		8
+}
+{
+	CODE: 0	
+	KEY: 111..111			//key
+}
+
+
+//批量操作
+{
+	PACKET_TYPE: BATCH_OPERATION
+ 	ID_TYPE:	//1用户  2公告
+	ID:11,22,33	//批量ID
+
+	BATCH_TYPE: 1	//1状态 2删除
+	STATUS: 1	
+}
+
+//财务管理->充值管理->创建报告
+{
+	
+	PACKET_TYPE: CREATE_REPORT_MONEY_OPERATION
+	FIND_TYPE:			//1NAME  2TIME 4STATUS 16隐藏从未充值的账户
+
+	ACCOUNT_ID: 111			//用户ID
+	FIND_NAME_TYPE:			//1登录名 2公司名 3公司网址 4投资大于 5投资小于 6余额大于 7余额小余
+	FIND_NAME: abc			//查询NAME		1
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	
+	SORT_TYPE: 1			//1正序 2倒序
+	SORT_COLUMN: 1			//1创意NAME 2登录名 3修改时间 4状态
+}
+{
+	http://(config->delivery_center_domain_str)/getPic/1/2/3/4/5/report.xls
+}
+
+//财务管理->充值查询->创建报告
+{
+	
+	PACKET_TYPE: CREATE_REPORT_MONEY_RECHARGE
+	FIND_TYPE:			//1NAME  2TIME 
+	
+	FIND_NAME_TYPE:			//1登录名 2公司名 3公司网址 4流水号 5等于 6大于 7小于
+	FIND_NAME: abc			//查询NAME		1
+	TIME_START: xxxx-xx-xx		//开始时间		2
+	TIME_END: xxxx-xx-xx		//结束时间		2
+	
+	SORT_TYPE: 1			//1正序 2倒序
+	SORT_COLUMN: 1			//1创意NAME 2登录名 3修改时间 4状态
+}
+{
+	http://(config->delivery_center_domain_str)/getPic/1/2/3/4/5/report.xls
+}
+
+
+//财务管理->获取媒体列表
+{
+	
+	PACKET_TYPE: GET_MEDIA_DOMAIN_LIST;
+}
+{
+
+	CODE 0;
+	LIST:[];
+}
+
++
+
+//品牌广告->获取订单
+{
+	PACKET_TYPE: GET_BRAND
+	STATUS:			//1投放中 2已结束 3待投放 4申请中 5已过期 6申请拒绝 100全部
+
+	FIND_TYPE:		//1 订单编号 2登录名
+	FIND_NAME:		//FIND_TYPE == 1 or FIND_TYPE == 2
+	
+	DEPT_TYPE:		//1默认(全部) 2DEPT生效
+	DEPT_SERIALIZE:		//1111,2222,3333,4444
+	
+	REGION_TYPE:		//1默认(全部) 2REGION生效
+	REGION_SERIALIZE:	//1111,2222,3333,4444
+	
+	SHOW_TIME_TYPE		//1全部 2指定投放时间
+	SHOW_TIME_START: 	//投放开始时间
+	SHOW_TIME_END: 		//投放结束时间
+
+	CREATE_TIME_TYPE	//1全部 2指定创建时间
+	CREATE_TIME_START: 	//创建开始时间
+	CREATE_TIME_END: 	//创建结束时间
+
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN:		//1订单 2登录名 3投放时长 4开始日期 5结束日期 6广告消费 7创建时间 8状态 100全部
+
+	BALANCE_TYPE:1		//1全部 2隐藏失效订单
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	},
+	LIST:[
+	{
+		BRAND_ID         //订单ID
+		AD_ORDER_NO         //订单号
+		ACCOUNT_ID	    //用户ID
+		ACCOUNT_NAME 	    //用户名
+		DEPT_SERIALIZE		//投放科室
+		REGION_TYPE         //投放地域 0全部 1指定
+		REGION_SERIALIZE    //投放地域 REGION_TYPE=2 生效
+		DAYS		    //投放时长
+		SHOW_TIME_START		//开始投放时间
+		SHOW_TIME_END:		//结束投放时间
+		PRICE               //出价
+		CREATE_TIME         //创建时间
+		STATUS:		    //1投放中 2已结束 3待投放 4申请中 5已过期 6申请拒绝
+		REFUSE_REASON       //拒绝理由 STATUS=6 生效
+		AUDITOR_NAME		//审核人
+	    	AUDITOR_UPDATE_TIME	//最后审核时间
+	},
+	...
+	]
+}
+
+//品牌广告->添加订单
+{
+	PACKET_TYPE: ADD_BRAND
+
+	ACCOUNT_ID	    //用户ID
+	
+	REGION_TYPE         //投放地域 1全部 2指定区域
+	REGION_SERIALIZE    //投放地域code 11,22,33,44
+	
+	DEPT_SERIALIZE	//投放科室 code 11,22,33,44
+	
+	SHOW_TIME_START 	//投放开始时间
+	SHOW_TIME_END 		//投放结束时间
+	
+	PRICE               //出价
+}
+{
+	CODE:0
+}
+
+//品牌广告->查询档期
+{
+	PACKET_TYPE: FIND_BRAND_SCHEDULE
+
+	DEPT_TYPE:		//1默认(全部) 2DEPT生效
+	DEPT_SERIALIZE:			//1111,2222,3333,4444
+	
+	REGION_TYPE:		//1默认(全部) 2REGION生效
+	REGION_SERIALIZE:			//1111,2222,3333,4444
+
+	SHOW_TIME_START: 	//投放开始时间
+	SHOW_TIME_END: 		//投放结束时间
+	
+	PAGE_TYPE		/1 全部
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	},
+	LIST:[
+	{
+		DEPT_SERIALIZE		//科室code
+		REGION_SERIALIZE	//地域code
+		STATUS			//1冲突 2可投放
+	}
+	]
+}
+
+//品牌广告->订单审核(前台添加)
+{
+
+	PACKET_TYPE: BRAND_INSPECTION
+	
+	BRAND_ID		//订单ID
+	STATUS			//1通过 2拒绝
+	REFUSE_REASON       	//拒绝理由 STATUS=2 生
+	
+	ACCOUNT_ID	    	//用户ID
+	
+	REGION_TYPE         	//投放地域 1全部 2指定区域
+	REGION_SERIALIZE    	//投放地域code 11,22,33,44
+	
+	DEPT_SERIALIZE     	//投放科室 code 11,22,33,44
+	
+	SHOW_TIME_START 	//投放开始时间
+	SHOW_TIME_END 		//投放结束时间
+	
+	PRICE               	//出价
+}
+{
+	CODE: 0
+}
+
+//广告审核->获取品牌广告创意
+{
+	PACKET_TYPE: GET_BRAND_CREATIVE
+
+	FIND_TYPE		//1创意标题 2创意描述 3创意标题+描述 4登录名
+	FIND_NAME		//对应FIND_TYPE
+
+	BRAND_ID_TYPE		//1默认(全部) 2指定订单ID
+	BRAND_ID		//订单ID  BRAND_ID = 2  11,22,33
+	STATUS			//1审核中 2审核通过 3审核拒绝 100全部
+	
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN:		//1标题 2登录名 3修改时间 4状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+}
+{
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	},
+	LIST:[
+	{
+	BRAND_ID         	//订单ID
+	BRAND_CREATIVE_ID   //品牌广告创意ID
+	TITLE               //标题
+	DESCRIPTION         //描述
+	DESTINATION_URL     //访问URL
+	DISPLAY_URL         //显示URL
+	TELEPHONE           //电话
+	WEB_SITE            //官方网址
+	WEB_IM              //WEBIM
+	CREATIVE_STATE      //0待审核 1审核通过 2审核拒绝
+	REFUSE_REASON       //拒绝理由 CREATIVE_STATE=2 生效
+	CREATE_TIME         //创建时间
+	LAST_UPDATE_TIME	//修改时间
+	ACCOUNT_NAME		//用户名
+	
+	AUDITOR_NAME		//审核人
+	
+	BRAND_CREATIVE: [
+
+		SEQUENCE	//0:焦点 1-5:图片1-5
+		IMG_PATH	//图片路径
+		IMG_URL		//图片链接
+	]
+	}
+	]
+}
+
+//广告审核->修改品牌广告创意状态
+{
+	PACKET_TYPE: SET_BRAND_CREATIVE
+	BRAND_ID         	//订单ID 11,22,33
+	STATUS			//2审核通过 3审核拒绝
+	REFUSE_REASON       //拒绝理由 STATUS=3生效
+}
+
+//获取用户列表
+{
+	PACKET_TYPE: GET_ACCOUNT_NAME
+	FIND_TYPE		//1登录名 2公司名称 3公司网址
+	FIND_NAME		//对应FIND_TYPE
+}
+{
+	CODE: 0
+	INFO:
+	{
+	},
+	LIST:[
+	{
+	ACCOUNT_ID	//用户ID
+	ACCOUNT_NAME	//用户名称
+	]
+	}
+}
+
+//品牌广告->获取订单unique
+{
+	PACKET_TYPE: GET_BRAND_UNIQUE
+	BRAND_ID	//订单ID
+}
+{
+	CODE: 0
+	BRAND_ID         //订单ID
+	AD_ORDER_NO         //订单号
+	ACCOUNT_ID	    //用户ID
+	ACCOUNT_NAME 	    //用户名
+	DEPT_SERIALIZE		//投放科室
+	REGION_TYPE         //投放地域 1全部 2指定
+	REGION_SERIALIZE    //投放地域 REGION_TYPE=2 生效
+	DAYS		    //投放时长
+	SHOW_TIME_START		//开始投放时间
+	SHOW_TIME_END:		//结束投放时间
+	PRICE               //出价
+	CREATE_TIME         //创建时间
+	STATUS:		    //1投放中 2已结束 3待投放 4申请中 5已过期 6申请拒绝
+	REFUSE_REASON       //拒绝理由 STATUS=6 生效
+}
+
+
+//运营管理->DPS运营->获取列表
+{
+	PACKET_TYPE: GET_MANAGER_DSP_LIST
+	CPC_PRICE		//cpc出价大于等于此值
+	BUDGET_MORE		//大于等于此预算
+	BUDGET_LESS		//小于等于此预算
+	ACCOUNT_NAME		//用户名
+	REGION_SERIALIZE	//地域 code1,code2,code3
+	DEPT_SERIALIZE		//科室 code1,code2,code3
+	STATUS			//dps状态:0有效 1暂停 2未上传 3以上传 100全部
+
+	SORT_TYPE: 1		//1正序 2倒序
+	SORT_COLUMN:		//1账户 2预算 3CPC 4创意标题 5DPS状态
+
+	PAGE_COUNT: 20 		//每页多少条
+	PAGE_INDEX: 1 		//第几页
+
+}
+{
+	CODE: 0
+	INFO:
+	{
+		PAGE_INDEX: 1 		//第几页
+		COUNT: 2 		//总数
+	}
+	LIST:[{
+		CREATIVE_ID		//文字创意ID
+		ACCOUNT_NAME		//用户名
+		BUDGET			//预算
+		CPC_PRICE		//cpc出价
+		TITLE			//创意标题
+		STATUS			//0有效 1暂停 2未上传
+	
+	}]
+}
+
+//运营管理->DPS运营->获取图片
+{
+	PACKET_TYPE: GET_MANAGER_DSP_IMG
+	CREATIVE_ID		//创意ID
+}
+{
+	CODE: 0
+	INFO:
+	{
+	}
+	LIST:[{
+
+		IMG_ID		//图片ID
+		IMG_NAME	//图片名称
+		IMG_SIZE	//图片尺寸
+		FILE_SIZE	//图片大小
+		FILE_PATH	//图片路径
+	}]
+}
+
+//运营管理->DPS运营->上传图片
+{
+	PACKET_TYPE: ADD_MANAGER_DSP_IMG
+	CREATIVE_ID		//创意ID
+	UPLOAD_ID		//上传图片ID  11,22,33
+}
+{
+	CODE: 0
+}
+
+//运营管理->DPS运营->删除图片
+{
+	PACKET_TYPE: DEL_MANAGER_DSP_IMG
+	CREATIVE_ID		//创意ID
+	IMG_ID			//图片ID  11,22,33
+}
+{
+	CODE: 0
+}
+
+ //运营管理->DPS运营->启用/暂停
+ {
+ 
+	PACKET_TYPE: SET_MANAGER_DSP_IMG
+	CREATIVE_ID		//创意ID 11,22,33 
+	STATUS			//0有效 1暂停
+ 
+ }
+ {
+ 
+	CODE: 0
+ }
+ 
+ 
+ 
+ 
+ 
+	

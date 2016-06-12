@@ -1,0 +1,302 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "lg_list.h"
+
+typedef struct {
+
+        lg_list_t next;
+        char code[128];
+        int count;
+
+} lg_region_code_node_t;
+
+typedef struct {
+
+        lg_list_t next;
+        lg_list_t head;
+        char code[128];
+        int count;
+
+} lg_region_code_root_t;
+
+extern char *lg_string_strtok(const char *src, char *dest, char **save_ptr, int ch);
+static lg_list_t lg_region_code_head = {&lg_region_code_head, &lg_region_code_head};
+
+int lg_region_code_add_node(lg_list_t *head, const char *code)
+{
+
+        lg_list_t *p = NULL;
+        lg_list_for_each(p, head) {
+
+                lg_region_code_node_t *node = (lg_region_code_node_t *)p;
+                if (strcmp(node->code, code) == 0)
+                return 0;
+        }
+
+        lg_region_code_node_t *node = malloc(sizeof(lg_region_code_node_t));
+        if (!node) return -1;
+
+        strcpy(node->code, code);
+        lg_list_add(head, &node->next);
+        return 0;
+}
+
+int lg_region_code_add_root(const char *code)
+{
+
+        lg_list_t *p = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+                if (strcmp(root->code, code) == 0)
+                return 0;
+        }
+
+        lg_region_code_root_t *root = malloc(sizeof(lg_region_code_root_t));
+        if (!root) return -1;
+
+        strcpy(root->code, code);
+        lg_list_add(&lg_region_code_head, &root->next);
+        lg_list_init(&root->head);
+        return 0;
+}
+
+int lg_region_code_parse(const char *code)
+{
+
+        if (code[5] == '0'
+            && code[6] == '0'
+            && code[7] == '0'
+            && code[8] == '0'
+            && code[9] == '0') {
+
+                    return lg_region_code_add_root(code);
+            }
+
+        lg_list_t *p = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+                if (strncmp(root->code, code, 5) == 0) {
+
+                        return lg_region_code_add_node(&root->head, code);
+                }
+        }
+
+        char root_code[128];
+        sprintf(root_code, "%c%c%c%c%c00000", code[0], code[1], code[2], code[3], code[4]);
+        lg_region_code_add_root(root_code);
+
+        return lg_region_code_parse(code);
+}
+
+int lg_region_code_load(const char *path)
+{
+
+        lg_list_init(&lg_region_code_head);
+
+        FILE *fp = fopen(path, "r");
+        if (!fp) return -1;
+
+        char buffer[4096];
+        while(fgets(buffer, 4096, fp)) {
+
+                strtok(buffer, ",");
+                strtok(NULL, ",");
+                char *code = strtok(NULL, "\n");
+
+                if (code)
+                if (lg_region_code_parse(code))
+                return -1;
+        }
+
+        int root_count = 0;
+        int node_count = 0;
+        lg_list_t *p = NULL;
+        lg_list_t *pp = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+
+                node_count = 0;
+                root->count = root_count++;
+
+                lg_list_for_each(pp, &root->head) {
+
+                        lg_region_code_node_t *node = (lg_region_code_node_t *)pp;
+                        node->count = node_count++;
+                        //fprintf(stdout, "[%02d][%02d][%s][%s]\n", root->count, node->count, root->code, node->code);
+                }
+        }
+
+        fclose(fp);
+        return 0;
+}
+
+void lg_region_code_find_node(lg_list_t *head, const char *code, char *buffer)
+{
+
+        size_t size = 0;
+        char comm[4] = "";
+
+        lg_list_t *p = NULL;
+        lg_list_for_each(p, head) {
+
+                lg_region_code_node_t *node = (lg_region_code_node_t *)p;
+                size += sprintf(&buffer[size], "%s%s", comm, node->code);
+                comm[0] = ',';
+        }
+}
+
+void lg_region_father_code_del_and_code_full(const char *code, char *buffer)
+{
+
+        if (!code) return;
+
+        if (strcmp(code, "1000500000") == 0) {
+                strcpy(buffer, code);
+                return;
+
+        } else if (strcmp(code, "1000600000") == 0) {
+                strcpy(buffer, code);
+                return;
+
+        } else if (strcmp(code, "1000700000") == 0) {
+                strcpy(buffer, code);
+                return;
+
+        } else if (strcmp(code, "1009900000") == 0) {
+                strcpy(buffer, code);
+                return;
+        }
+
+        lg_list_t *p = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+                if (strcmp(root->code, code) == 0)
+                return lg_region_code_find_node(&root->head, root->code, buffer);
+        }
+
+        strcpy(buffer, code);
+}
+
+void lg_region_father_code_del_and_code_full_s(const char *codes, char *buffer)
+{
+
+        if (!codes) return;
+
+        char _code[256];
+        char *save_ptr = NULL;
+        char *code = lg_string_strtok(codes, _code, &save_ptr, ',');
+
+        size_t size = 0;
+        char temp[2048] = {0};
+        char comm[4] = {0};
+
+        while(code) {
+
+                lg_region_father_code_del_and_code_full(code, temp);
+                size += sprintf(&buffer[size], "%s%s", comm, temp);
+                comm[0] = ',';
+
+                code = lg_string_strtok(NULL, _code, &save_ptr, ',');
+        }
+}
+
+int lg_region_father_code_add_r(const char *code, int *root_count, int *node_count)
+{
+
+        lg_list_t *p = NULL;
+        lg_list_t *pp = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+                if (strcmp(root->code, code) == 0) {
+
+                        *root_count = root->count;
+                        return 1;
+                }
+
+                lg_list_for_each(pp, &root->head) {
+
+                        lg_region_code_node_t *node = (lg_region_code_node_t *)pp;
+                        if (strcmp(node->code, code) == 0) {
+
+                                *root_count = root->count;
+                                *node_count = node->count;
+                                return 0;
+                        }
+                }
+        }
+
+        return -1;
+}
+
+int lg_region_father_code_add(const char *codes, char *buffer)
+{
+
+        int root_count = 0;
+        int node_count = 0;
+        int mod[128][128];
+        memset(&mod, 0, 128 * 128 * sizeof(int));
+
+        if (!codes) return -1;
+
+        char _code[256];
+        char *save_ptr = NULL;
+        char *code = lg_string_strtok(codes, _code, &save_ptr, ',');
+
+        while(code) {
+
+                int ret = lg_region_father_code_add_r(code, &root_count, &node_count);
+                if (ret == 0)
+                mod[root_count][node_count] = 1;
+                else if (ret == -1)
+                return -1;
+
+                code = lg_string_strtok(NULL, _code, &save_ptr, ',');
+        }
+
+        size_t size = sprintf(buffer, codes);
+
+        int status = 0;
+        lg_list_t *p = NULL;
+        lg_list_t *pp = NULL;
+        lg_list_for_each(p, &lg_region_code_head) {
+
+                lg_region_code_root_t *root = (lg_region_code_root_t *)p;
+
+                status = 0;
+                if (strcmp(root->code, "1000500000") == 0)
+                status = 1;
+                else if (strcmp(root->code, "1000600000") == 0)
+                status = 1;
+                else if (strcmp(root->code, "1000700000") == 0)
+                status = 1;
+                else if (strcmp(root->code, "1009900000") == 0)
+                status = 1;
+
+                lg_list_for_each(pp, &root->head) {
+
+                        lg_region_code_node_t *node = (lg_region_code_node_t *)pp;
+
+                        if (mod[root->count][node->count] == 0) {
+
+                                status = 1;
+                                break;
+                        }
+                }
+
+                if (status == 0)
+                size += sprintf(&buffer[size], ",%s", root->code);
+
+                fprintf(stderr, "%s\n", buffer);
+        }
+
+    return 0;
+}
+
+

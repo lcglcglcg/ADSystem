@@ -1,0 +1,8 @@
+CORE_INCS="$CORE_INCS $ngx_addon_dir/include"
+CORE_INCS="$CORE_INCS $ngx_addon_dir/include/oci"
+CORE_INCS="$CORE_INCS $ngx_addon_dir/include/ocilib"
+
+NGX_ADDON_SRCS="$NGX_ADDON_SRCS $ngx_addon_dir/*.c"
+# CORE_LIBS="$CORE_LIBS -L/oracle/10.2/lib -lnnz -lclntsh"
+CORE_LIBS="$CORE_LIBS -L/ad_system/ad_system_lib/oci_lib/ -lnnz -lclntsh"
+

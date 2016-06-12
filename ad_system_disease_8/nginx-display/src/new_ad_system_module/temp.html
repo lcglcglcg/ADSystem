@@ -1,0 +1,175 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+
+<script type="text/javascript">
+
+function get_request(){
+    if (window.XMLHttpRequest) {
+	return new XMLHttpRequest();
+    }else if(window.ActiveXObject){
+	return new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    return null;
+}
+
+var xhr = get_request();
+function m_send(str){
+
+    //创建异步POST
+    xhr.open("POST","http://www.aaa.com/action", true);
+    //接收状态变更回调函数
+    xhr.onreadystatechange = m_recv;
+    xhr.send(str);
+}
+
+function m_recv(){
+
+    if (xhr.readyState == 4 && xhr.responseText && xhr.status == 200) {
+
+	document.getElementById("m_print").innerHTML = xhr.responseText;
+	// alert(xhr.responseText);
+    }
+}
+
+function USER_LOGIN(){
+    // var str = "server={\"PACKET_TYPE\":\"USER_LOGIN\",\"ACCOUNT\":\"lcglcg\",\"PASSWORD\":\"lcglcg\",\"VAR_CODE\":\"1234\"}";
+    var str = "server={\"PACKET_TYPE\":\"USER_LOGIN\",\"ACCOUNT\":\"elikeme\",\"PASSWORD\":\"d1788278a63ec6627374bb2b5afa3ff0\",\"VAR_CODE\":\"1234\"}";
+    m_send(str);
+}
+
+function USER_LOGOUT(){
+    var str = "server={\"PACKET_TYPE\":\"USER_LOGOUT\"}";
+    m_send(str);
+}
+
+function USER_LOGIN_CHECK(){
+    var str = "server={\"PACKET_TYPE\":\"USER_LOGIN_CHECK\"}";
+    m_send(str);
+}
+
+function GET_CAPTCHA(){
+    var str = "server={\"PACKET_TYPE\":\"GET_CAPTCHA\"}";
+    m_send(str);
+}
+
+function GET_TITLE_INFO(){
+    var str = "server={\"PACKET_TYPE\":\"GET_TITLE_INFO\"}";
+    m_send(str);
+}
+
+function GET_ANNOUNCEMENT(){
+    var str = "server={\"PACKET_TYPE\":\"GET_ANNOUNCEMENT\"}";
+    m_send(str);
+}
+
+function GET_REGION_CODE(){
+    var str = "server={\"PACKET_TYPE\":\"GET_REGION_CODE\"}";
+    m_send(str);
+}
+
+function GET_DISEASE_CODE(){
+    var str = "server={\"PACKET_TYPE\":\"GET_DISEASE_CODE\"}";
+    m_send(str);
+}
+
+function GET_SPERAD_LIST(){
+    var str = "server={\"PACKET_TYPE\":\"GET_SPERAD_LIST\", \"DISPLAY_STATUS\":\"1\"}";
+    m_send(str);
+}
+
+function CAMPAIGN_NAME_CHECK(){
+
+    var str = "server={\"PACKET_TYPE\":\"CAMPAIGN_NAME_CHECK\"}";
+    m_send(str);
+}
+
+function ADD_CAMPAIGN(){
+    var str = "server={\"PACKET_TYPE\":\"ADD_CAMPAIGN\",\"DISPLAY_STATUS\":\"1\",\"CAMPAIGN_NAME\":\"abc\",\"CAMPAIGN_BUDGET\":\"100\",\"REGION_TYPE\":\"1\",\"REGION_SERIALIZE\":\"100,001\",\"SCHEDULE_TYPE\":\"1\",\"SCHEDULE_SERIALIZE\":\"111\",\"TIME_TYPE\":\"1\"}";    
+    m_send(str);
+}
+
+function GET_CAMPAIGN(){
+
+    var str = "server={\"PACKET_TYPE\":\"GET_CAMPAIGN\",\"DISPLAY_STATUS\":\"1\"}";
+    m_send(str);
+}
+
+function SET_CAMPAIGN(){
+
+    var str = "server={\"PACKET_TYPE\":\"SET_CAMPAIGN\"}";
+    m_send(str);
+}
+
+function DEL_CAMPAIGN(){
+
+    var str = "server={\"PACKET_TYPE\":\"DEL_CAMPAIGN\"}";
+    m_send(str);
+}
+
+function GROUP_NAME_CHECK(){
+
+    var str = "server={\"PACKET_TYPE\":\"GROUP_NAME_CHECK\"}";
+    m_send(str);
+}
+
+function ADD_GROUP(){
+
+    var str = "server={\"PACKET_TYPE\":\"ADD_GROUP\"}";
+    m_send(str);
+}
+
+function GET_GROUP(){
+
+    var str = "server={\"PACKET_TYPE\":\"GET_GROUP\", \"DISPLAY_STATUS\":\"1\"}";
+    m_send(str);
+}
+
+function SET_GROUP(){
+
+    var str = "server={\"PACKET_TYPE\":\"SET_GROUP\"}";
+    m_send(str);
+}
+
+
+</script>
+
+</head>
+<body> 
+<div id="m_print"></div>
+
+<br>
+<button onclick="USER_LOGIN()">USER_LOGIN</button>
+<button onclick="USER_LOGOUT()">USER_LOGOUT</button>
+<button onclick="USER_LOGIN_CHECK()">USER_LOGIN_CHECK</button>
+<button onclick="GET_CAPTCHA()">GET_CAPTCHA</button>
+
+<br>
+<button onclick="GET_TITLE_INFO()">GET_TITLE_INFO</button>
+<button onclick="GET_ANNOUNCEMENT()">GET_ANNOUNCEMENT</button>
+
+<br>
+<button onclick="GET_REGION_CODE()">GET_REGION_CODE</button>
+<button onclick="GET_DISEASE_CODE()">GET_DISEASE_CODE</button>
+<button onclick="GET_SPERAD_LIST()">GET_SPERAD_LIST</button>
+
+<br>
+<button onclick="CAMPAIGN_NAME_CHECK()">CAMPAIGN_NAME_CHECK</button>
+<button onclick="ADD_CAMPAIGN()">ADD_CAMPAIGN</button>
+<button onclick="GET_CAMPAIGN()">GET_CAMPAIGN</button>
+<button onclick="SET_CAMPAIGN()">SET_CAMPAIGN</button>
+<button onclick="DEL_CAMPAIGN()">DEL_CAMPAIGN</button>
+
+<br>
+<button onclick="GROUP_NAME_CHECK()">GROUP_NAME_CHECK</button>
+<button onclick="ADD_GROUP()">ADD_GROUP</button>
+<button onclick="GET_GROUP()">GET_GROUP</button>
+<button onclick="SET_GROUP()">SET_GROUP</button>
+
+
+</body>
+</html>
+
+
+
+
